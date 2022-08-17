@@ -16,4 +16,8 @@ export class HealthService {
   checkDb() {
     return this.healthRepository.checkDB();
   }
+
+  checkAuth() {
+    return this.healthRepository.checkAuth();
+  }
 }

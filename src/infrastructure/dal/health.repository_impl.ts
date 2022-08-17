@@ -8,4 +8,8 @@ export class HealthRepositoryImpl implements HealthRepository {
   checkDB() {
     return 'You are able to connect to the DB. Current DB time is: ';
   }
+
+  checkAuth() {
+    return 'You have been authorized successfully'
+  };
 }

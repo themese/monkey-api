@@ -1,4 +1,5 @@
-import { Controller, Get, Inject } from "@nestjs/common";
+import { Controller, Get, Inject, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { HealthService, HealthServiceSymbol } from "src/app_services/health.service";
 
@@ -19,6 +20,7 @@ export class HealthController {
   async check() {
     return { response: 'hello!!' };
   }
+
   @ApiResponse({
     status: 200,
     description: 'Checks full api connection and resources. No auth required',
@@ -27,5 +29,20 @@ export class HealthController {
   @Get('/api')
   checkApi(): string {
     return this.healthService.checkApi();
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'Checks auth connection and returns dummy text',
+    type: String
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access. Credentials sent failed'
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/auth')
+  checkAuth(): string {
+    return this.healthService.checkAuth();
   }
 }
