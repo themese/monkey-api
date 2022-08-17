@@ -1,30 +1,9 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project was created using [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a CRM project for a technical interview. We wanted to treat this as a real production project, so from now on all the documentation will be written as this project was production-ready. There will be explanation for the decisions taken.
+
+If you are not part of the company that is interviewing, thanks for comming around and feel free to contribute and share any ideas on how to improve it. We can all use this to improve ourselves at the very least.
 
 ## Installation
 
@@ -43,31 +22,69 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# format code
+$ npm run lint
 ```
 
 ## Test
+
+Tests are done using jest. Only unit tests are implemented for the sake of time.
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
 
-## Support
+## Framework
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+ToDo
 
-## Stay in touch
+## Architecture
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+ToDo
 
-## License
+### Users
 
-Nest is [MIT licensed](LICENSE).
+### Admins
+
+### Customers
+
+## Authentication
+
+We didn't want to build our own Authentication service as dealing with encrypting passwords and managing it in our DB would be costly in time and provide little to no value over using a 3rd party one.
+
+Auth0 was implemented as our authentication service. You can find in the `.env.example` file the required Auth0 ids. These ids aren't shared for security reasons, so please reach out to `jousema.fernandez@gmail.com` if you need these keys.
+Auth0 is one of the most consumed authentication services and we are able to automatically allow social login using Google as well as protect using JWT and more, with minimal effort.
+
+### Auth Guards
+
+We protect our controllers routes using `@UseGuards(AuthGuard('jwt'))`. See for example the `health.controller.ts`:
+
+```typescript
+@UseGuards(AuthGuard('jwt'))
+  @Get('/auth')
+  checkAuth(): string {
+    return this.healthService.checkAuth();
+  }
+```
+
+NestJS AuthGuards provide an easy way of protecting our API for unauthorized users and will automatically either allow access to the code or deny access and throw an Unauthorized error. See that we didn't code any error thrown.
+
+The `'jwt'` param in the `AuthGuard('jwt')` decorator refers to `ioc/jwt/jwt.strategy.ts` that uses both the `Passport strategy` built from NestJS and is connected to our Auth0 account. This was done following [Auth0's documentation](https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-role-based-access-control/) and using a [Passport strategy](http://www.passportjs.org/packages/passport-jwt/).
+
+### How to Login
+
+ToDo
+
+## DB
+
+ToDo
+
+## API Documentation
+
+ToDo
+We use [Swagger for NestJS](https://docs.nestjs.com/openapi/introduction). Go to this URL: `localhost:8000/api` to retrieve the API usage documentation
