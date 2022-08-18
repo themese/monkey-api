@@ -1,6 +1,7 @@
 import { NotImplementedException } from "@nestjs/common";
 import { NewCustomer, Customer } from "src/domain_model/customer";
 import { CustomerRepository } from "src/domain_services/customer.repository";
+import { Client } from "pg";
 
 const _customer = new Customer(
   '1',

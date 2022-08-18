@@ -23,6 +23,15 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
+# start database
+$ npm run db:start
+
+# init database
+$ npm run db:init
+
+# seed database
+$ npm run db:seed
+
 # format code
 $ npm run lint
 ```
@@ -82,7 +91,27 @@ ToDo
 
 ## DB
 
-ToDo
+We use PostgreSQL with Docker (you can install Docker [here](https://docs.docker.com/desktop/#download-and-install)).
+Once you have installed Docker and restarted your machine, you can use `npm run db`.
+This script executes `docker compose` that will create a `PostgreSQL` volume with a user and a password provided via `.env`. You can check them in. `.env.example` and ask them to `jousema.fernandez@gmail.com`. It will also create a db called `dev` and a pgAdmin volume that you can access using the credentials from the `.env` file and in url `localhost:5050`.
+
+Once you are in pgAdmin, you will have to connect to the postgres server we just created.
+
+Go to left menu, right click on Register, then go to Server... and a pop up will appear.
+
+![](./public/imgs/right_click.png)
+
+On the pop up, introduce the following values on the General tab:
+
+![](./public/imgs/register_server.png)
+
+and the following on Connection tab:
+
+![](./public/imgs/register_server_connection.png)
+
+where the `Username` field corresponds to `POSTGRES_USER` in `.env` fiel and Password, `POSTGRES_PWD`.
+
+Now, the DB is set up, but empty. You can run `npm run db:init` to create the tables and `npm run db:seed` to add a few dummy customers, users and admins if you want. This can be useful to test using fake data in the UI, isntead of tests.
 
 ## API Documentation
 
