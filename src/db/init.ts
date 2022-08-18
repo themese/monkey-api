@@ -26,19 +26,6 @@ const init = async () => {
     OWNER to "secureUser@email.com";
     `);
 
-    // create admins
-    await client.query(`
-    CREATE TABLE IF NOT EXISTS public."Admins"
-    (
-    id character varying COLLATE pg_catalog."default" NOT NULL,
-    email character varying COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "Admins_pkey" PRIMARY KEY (id)
-    )
-    TABLESPACE pg_default;
-    ALTER TABLE IF EXISTS public."Admins"
-    OWNER to "secureUser@email.com";
-    `);
-
     // create customers
     await client.query(`
     CREATE TABLE IF NOT EXISTS public."Customers"
