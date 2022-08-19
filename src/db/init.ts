@@ -13,28 +13,51 @@ const init = async () => {
 
     await client.connect();
 
-    // create users
+
     await client.query(`
+    CREATE TABLE IF NOT EXISTS public."Roles"
+    (
+    id SERIAL,
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Roles_pkey" PRIMARY KEY (id)
+    )
+    TABLESPACE pg_default;
+    ALTER TABLE IF EXISTS public."Roles"
+    OWNER to "secureUser@email.com";
+
     CREATE TABLE IF NOT EXISTS public."Users"
     (
-    id character varying COLLATE pg_catalog."default" NOT NULL,
+    id SERIAL,
     email character varying COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "Users_pkey" PRIMARY KEY (id)
+    "roleId" integer NOT NULL,
+    CONSTRAINT "Users_pkey" PRIMARY KEY (id),
+    CONSTRAINT "Users_email_key" UNIQUE (email),
+    CONSTRAINT "Users_roleId_fkey" FOREIGN KEY ("roleId")
+        REFERENCES public."Roles" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
     )
     TABLESPACE pg_default;
     ALTER TABLE IF EXISTS public."Users"
     OWNER to "secureUser@email.com";
-    `);
 
-    // create customers
-    await client.query(`
     CREATE TABLE IF NOT EXISTS public."Customers"
     (
-    id character varying COLLATE pg_catalog."default" NOT NULL,
+    id SERIAL,
     name character varying COLLATE pg_catalog."default" NOT NULL,
     surname character varying COLLATE pg_catalog."default" NOT NULL,
     photo character varying COLLATE pg_catalog."default",
-    CONSTRAINT "Customers_pkey" PRIMARY KEY (id)
+    "createdBy" integer NOT NULL,
+    "lastUpdatedBy" integer NOT NULL,
+    CONSTRAINT "Customers_pkey" PRIMARY KEY (id),
+    CONSTRAINT "Customers_createdBy_fkey" FOREIGN KEY ("createdBy")
+        REFERENCES public."Users" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "Customers_lastUpdatedBy_fkey" FOREIGN KEY ("lastUpdatedBy")
+        REFERENCES public."Users" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
     )
     TABLESPACE pg_default;
     ALTER TABLE IF EXISTS public."Customers"
