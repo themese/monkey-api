@@ -17,7 +17,7 @@ export class AuthController {
   @Get('/')
   async getToken(): Promise<string> {
     try {
-      const res = await axios.post('https://dev-monkey.eu.auth0.com/oauth/token', {
+      const res = await axios.post(`${process.env.AUTH0_ISSUER_URL}oauth/token`, {
         'client_id': process.env.AUTH0_CLIENT_ID,
         'client_secret': process.env.AUTH0_CLIENT_SECRET,
         'audience': process.env.AUTH0_AUDIENCE,
