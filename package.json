@@ -29,6 +29,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^6.0.5",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "jwks-rsa": "^2.1.4",
     "passport": "^0.6.0",

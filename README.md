@@ -87,7 +87,11 @@ The `'jwt'` param in the `AuthGuard('jwt')` decorator refers to `ioc/jwt/jwt.str
 
 ### How to Login
 
-ToDo
+Because this is only the API and we have no UI to login and in order to save time, we are currently login this API using the Application Test features from Auth0.
+
+![](./public/imgs/auth0.png)
+
+This should be already set up and no config is needed from devs. You can retrieve a token calling the `GET: http://localhost:8000/api/auth` endpoint.
 
 ## DB
 
@@ -117,3 +121,5 @@ Now, the DB is set up, but empty. You can run `npm run db:init` to create the ta
 
 ToDo
 We use [Swagger for NestJS](https://docs.nestjs.com/openapi/introduction). Go to this URL: `localhost:8000/api` to retrieve the API usage documentation
+
+You can find the postman api collection at `/public/postman`
