@@ -1,3 +1,4 @@
+import { NotAcceptableException } from "@nestjs/common";
 import { Client, QueryResult } from "pg";
 import { NewCustomer, Customer, CustomerId } from "src/domain_model/customer";
 import { UserId } from "src/domain_model/user";
@@ -33,7 +34,13 @@ export class CustomerRepositoryImpl implements CustomerRepository {
       ORDER BY id ASC
       limit 1;
     `);
-    return dbResponse.rows[0];
+    const customer = dbResponse.rows[0];
+
+    if (customer.isDeleted) {
+      throw new NotAcceptableException('Customer was previously softly deleted, but the record does exist in the DB.');
+    }
+
+    return customer;
   };
   async getCustomers() {
     const dbResponse: QueryResult<Customer> = await this._clientDb.query(`
@@ -43,10 +50,10 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     return dbResponse.rows;
   };
   async updateCustomer(customer: Customer, updatedBy: UserId) {
-    const { id, name, surname, photo, createdBy } = customer;
+    const { id, name, surname, photo, createdBy, isDeleted } = customer;
     const dbUpdateResponse: QueryResult<{ id: CustomerId }> = await this._clientDb.query(`
       UPDATE ${customers}
-      SET id=${id}, name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=false
+      SET id=${id}, name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=${isDeleted}
       WHERE id=${id}
       RETURNING id;
     `);

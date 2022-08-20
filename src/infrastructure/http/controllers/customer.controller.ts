@@ -77,6 +77,10 @@ export class CustomerController {
     status: 404,
     description: 'No customer was found given that id'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Customer was previously deleted (soft deleted). You can use the update the Customer method to update the isDeleted flag.'
+  })
   @ApiParam({
     type: String,
     name: 'id',
