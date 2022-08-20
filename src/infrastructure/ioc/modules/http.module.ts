@@ -4,11 +4,13 @@ import { CustomerController } from "src/infrastructure/http/controllers/customer
 import { AppServicesModule } from './appservices.module';
 import { AuthModule } from "./auth.module";
 import { AuthController } from "src/infrastructure/http/controllers/auth.controller";
+import { RoleController } from "src/infrastructure/http/controllers/role.controller";
 
 const controllers = [
   HealthController,
   CustomerController,
   AuthController,
+  RoleController,
 ];
 
 @Module({
