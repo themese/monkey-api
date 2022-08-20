@@ -30,6 +30,7 @@ const init = async () => {
     id SERIAL,
     email character varying COLLATE pg_catalog."default" NOT NULL,
     "roleId" integer NOT NULL,
+    "isDeleted" boolean DEFAULT false,
     CONSTRAINT "Users_pkey" PRIMARY KEY (id),
     CONSTRAINT "Users_email_key" UNIQUE (email),
     CONSTRAINT "Users_roleId_fkey" FOREIGN KEY ("roleId")

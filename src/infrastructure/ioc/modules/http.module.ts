@@ -5,12 +5,14 @@ import { AppServicesModule } from './appservices.module';
 import { AuthModule } from "./auth.module";
 import { AuthController } from "src/infrastructure/http/controllers/auth.controller";
 import { RoleController } from "src/infrastructure/http/controllers/role.controller";
+import { UserController } from "src/infrastructure/http/controllers/user.controller";
 
 const controllers = [
   HealthController,
   CustomerController,
   AuthController,
   RoleController,
+  UserController,
 ];
 
 @Module({

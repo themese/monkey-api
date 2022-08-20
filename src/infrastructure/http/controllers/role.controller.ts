@@ -22,7 +22,7 @@ export class RoleController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Error creating the customer'
+    description: 'Error creating the role'
   })
   @ApiResponse({
     status: 401,
