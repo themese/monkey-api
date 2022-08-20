@@ -110,7 +110,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No customer was found given that id'
+    description: 'Customer was not found'
   })
   @ApiResponse({
     status: 400,
@@ -136,7 +136,7 @@ export class CustomerController {
 
   @ApiResponse({
     status: 200,
-    description: 'Softs deletes customer given its id. It returns the customer that was soft deleted',
+    description: 'Soft deletes customer given its id. It returns the customer that was soft deleted',
     type: CustomerDto
   })
   @ApiResponse({
@@ -145,7 +145,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No customer was found given that id'
+    description: 'Customer was not found'
   })
   @ApiResponse({
     status: 400,
