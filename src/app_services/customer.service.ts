@@ -10,8 +10,6 @@ export class CustomerService {
     private readonly customerRepository: CustomerRepository,
   ) { }
 
-// To-Do: Allow or deny methods based on User Role
-
   async createCustomer(newCustomer: NewCustomer) {
     return await this.customerRepository.createCustomer(newCustomer, 1);
   };
