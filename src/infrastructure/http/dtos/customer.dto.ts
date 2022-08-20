@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CustomerId } from "src/domain_model/customer";
+import { UserId } from "src/domain_model/user";
 
 export class CustomerDto {
   @ApiProperty()
@@ -10,4 +11,10 @@ export class CustomerDto {
   surname: string;
   @ApiProperty()
   photo: string; // base64
+  @ApiProperty()
+  createdBy: UserId;
+  @ApiProperty()
+  lastUpdatedBy: UserId;
+  @ApiProperty()
+  isDeleted: boolean;
 }

@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { UserId } from "./user";
 
-export type CustomerId = string;
+export type CustomerId = number;
 
 export class NewCustomer {
   @ApiProperty()
@@ -8,11 +9,11 @@ export class NewCustomer {
   @ApiProperty()
   surname: string;
   @ApiProperty()
-  photo?: string;
+  photo: string;
   constructor(
     _name: string,
     _surname: string,
-    _photo?: string,
+    _photo: string,
   ) {
     this.name = _name;
     this.surname = _surname;
@@ -29,14 +30,25 @@ export class Customer extends NewCustomer {
   surname: string;
   @ApiProperty()
   photo: string; // base64
+  @ApiProperty()
+  createdBy: UserId;
+  @ApiProperty()
+  lastUpdatedBy: UserId;
+  @ApiProperty()
+  isDeleted: boolean;
   constructor(
-    _id: string,
+    _id: UserId,
     _name: string,
     _surname: string,
+    _createdBy: UserId,
+    _lastUpdatedBy: UserId,
     _photo: string,
+    _isDeleted: boolean,
   ) {
-    super(_name, _surname);
+    super(_name, _surname, _photo);
     this.id = _id;
-    this.photo = _photo;
+    this.createdBy = _createdBy;
+    this.lastUpdatedBy = _lastUpdatedBy;
+    this.isDeleted = _isDeleted;
   }
 }

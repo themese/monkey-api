@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CustomerService, CustomerServiceSymbol } from "src/app_services/customer.service";
 import { NewCustomer, CustomerId, Customer } from "src/domain_model/customer";
@@ -32,6 +33,7 @@ export class CustomerController {
     description: 'Customer to be added',
     type: NewCustomer,
   })
+  @UseGuards(AuthGuard('jwt'))
   @Post('/')
   async createCustomer(
     @Body('newCustomer') body: NewCustomer,
@@ -52,6 +54,7 @@ export class CustomerController {
     status: 401,
     description: 'Unauthorized'
   })
+  @UseGuards(AuthGuard('jwt'))
   @Get('/')
   async getCustomers(): Promise<CustomerDto[]> {
     try {
@@ -80,6 +83,7 @@ export class CustomerController {
     description: 'Id of the Customer',
     required: true,
   })
+  @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
   async getCustomer(
     @Param('id') param: CustomerId,
@@ -111,8 +115,9 @@ export class CustomerController {
   @ApiBody({
     required: true,
     description: 'Customer to be added',
-    type: Customer,
+    type: CustomerDto,
   })
+  @UseGuards(AuthGuard('jwt'))
   @Put('/')
   async updateCustomer(
     @Body('customer') body: Customer,
@@ -127,7 +132,8 @@ export class CustomerController {
 
   @ApiResponse({
     status: 200,
-    description: 'Deletes customer given its id'
+    description: 'Softs deletes customer given its id. It returns the customer that was soft deleted',
+    type: CustomerDto
   })
   @ApiResponse({
     status: 401,
@@ -147,12 +153,14 @@ export class CustomerController {
     description: 'Id of the Customer',
     required: true,
   })
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/:id')
   async deleteCustomer(
     @Param('id') param: CustomerId,
-  ): Promise<void> {
+  ): Promise<CustomerDto> {
     try {
-      await this.customerService.deleteCustomer(param);
+      const customer = await this.customerService.deleteCustomer(param);
+      return customerFromDomain(customer);
     } catch (err) {
       throw new Error(err);
     }

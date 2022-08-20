@@ -49,6 +49,7 @@ const init = async () => {
     photo character varying COLLATE pg_catalog."default",
     "createdBy" integer NOT NULL,
     "lastUpdatedBy" integer NOT NULL,
+    "isDeleted" boolean DEFAULT false,
     CONSTRAINT "Customers_pkey" PRIMARY KEY (id),
     CONSTRAINT "Customers_createdBy_fkey" FOREIGN KEY ("createdBy")
         REFERENCES public."Users" (id) MATCH SIMPLE

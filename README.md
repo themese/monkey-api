@@ -122,4 +122,4 @@ Now, the DB is set up, but empty. You can run `npm run db:init` to create the ta
 ToDo
 We use [Swagger for NestJS](https://docs.nestjs.com/openapi/introduction). Go to this URL: `localhost:8000/api` to retrieve the API usage documentation
 
-You can find the postman api collection at [this public link](https://www.postman.com/collections/d596b43d0825391b8901). You can copy it and Import it in [Postman using Link](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman)
+You can find the postman api collection at [this public link](https://www.getpostman.com/collections/d596b43d0825391b8901). You can copy it and Import it in [Postman using Link](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman)

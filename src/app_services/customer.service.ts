@@ -11,7 +11,7 @@ export class CustomerService {
   ) { }
 
   async createCustomer(newCustomer: NewCustomer) {
-    return await this.customerRepository.createCustomer(newCustomer);
+    return await this.customerRepository.createCustomer(newCustomer, 1);
   };
 
   async getCustomer(id: CustomerId) {
@@ -23,10 +23,10 @@ export class CustomerService {
   };
 
   async updateCustomer(customer: Customer) {
-    return await this.customerRepository.updateCustomer(customer);
+    return await this.customerRepository.updateCustomer(customer, 1);
   };
-  
+
   async deleteCustomer(id: CustomerId) {
-    return await this.customerRepository.deleteCustomer(id);
+    return await this.customerRepository.deleteCustomer(id, 1);
   };
 }
