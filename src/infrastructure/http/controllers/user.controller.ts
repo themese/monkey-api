@@ -28,21 +28,31 @@ export class UserController {
     status: 401,
     description: 'Unauthorized'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Invalid role. Only an admin can create a user'
+  })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @ApiBody({
     required: true,
-    description: 'User to be added',
+    description: 'User to be added ',
     type: NewUser,
   })
   @UseGuards(AuthGuard('jwt'))
-  @Post('/')
+  @Post('/:requesterId')
   async createUser(
+    @Param('requesterId') param: UserId,
     @Body('newUser') body: NewUser,
   ): Promise<UserDto> {
     try {
-      const user = await this.userService.createUser(body);
+      const user = await this.userService.createUser(body, param);
       return userFromDomain(user);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -55,14 +65,25 @@ export class UserController {
     status: 401,
     description: 'Unauthorized'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Invalid role. Only an admin can create a user'
+  })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @UseGuards(AuthGuard('jwt'))
-  @Get('/')
-  async getUsers(): Promise<UserDto[]> {
+  @Get('/:requesterId')
+  async getUsers(
+    @Param('requesterId') param: UserId,
+  ): Promise<UserDto[]> {
     try {
-      const users = await this.userService.getUsers();
+      const users = await this.userService.getUsers(param);
       return users.map(userFromDomain);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -79,26 +100,36 @@ export class UserController {
     status: 401,
     description: 'Unauthorized'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Invalid role. Only an admin can create a user'
+  })
   @ApiParam({
     name: 'id',
     description: 'Id of the user'
   })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @UseGuards(AuthGuard('jwt'))
-  @Get('/:id')
+  @Get('/:userId/:requesterId')
   async getUser(
-    @Param('id') param: UserId,
+    @Param() params: { userId: UserId, requesterId: UserId },
   ) {
     try {
-      const user = await this.userService.getUser(param);
+      const user = await this.userService.getUser(params.userId, params.requesterId);
       return userFromDomain(user);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
   @ApiResponse({
     status: 200,
-    description: 'Returns updated user'
+    description: 'Returns updated user',
+    type: UserDto
   })
   @ApiResponse({
     status: 401,
@@ -112,21 +143,31 @@ export class UserController {
     status: 400,
     description: 'Error updating the user'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Invalid role. Only an admin can create a user'
+  })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @ApiBody({
     required: true,
     description: 'User to be added',
-    type: UserDto,
+    type: User,
   })
   @UseGuards(AuthGuard('jwt'))
-  @Put('/')
+  @Put('/:requesterId')
   async updateUser(
+    @Param('requesterId') param: UserId,
     @Body('user') body: User,
   ): Promise<UserDto> {
     try {
-      const user = await this.userService.updateUser(body);
+      const user = await this.userService.updateUser(body, param);
       return userFromDomain(user);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -147,22 +188,31 @@ export class UserController {
     status: 400,
     description: 'Error deleting the User'
   })
+  @ApiResponse({
+    status: 406,
+    description: 'Invalid role. Only an admin can create a user'
+  })
   @ApiParam({
     type: String,
     name: 'id',
     description: 'Id of the User',
     required: true,
   })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/:id')
+  @Delete('/:userId/:requesterId')
   async deleteUser(
-    @Param('id') param: UserId,
+    @Param() params: { userId: UserId, requesterId: UserId },
   ): Promise<UserDto> {
     try {
-      const user = await this.userService.deleteUser(param);
+      const user = await this.userService.deleteUser(params.userId, params.requesterId);
       return userFromDomain(user);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 

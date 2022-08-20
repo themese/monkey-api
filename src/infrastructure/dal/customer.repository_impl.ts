@@ -1,4 +1,3 @@
-import { NotAcceptableException } from "@nestjs/common";
 import { Client, QueryResult } from "pg";
 import { NewCustomer, Customer, CustomerId } from "src/domain_model/customer";
 import { UserId } from "src/domain_model/user";
@@ -11,7 +10,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
   constructor() {
     this._clientDb = initDbClient();
   }
-  
+
   async createCustomer(newCustomer: NewCustomer, createdBy: UserId) {
     const { name, surname, photo } = newCustomer;
     const dbCreatedResponse: QueryResult<{ id: CustomerId }> = await this._clientDb.query(`
@@ -35,14 +34,10 @@ export class CustomerRepositoryImpl implements CustomerRepository {
       ORDER BY id ASC
       limit 1;
     `);
-    const customer = dbResponse.rows[0];
 
-    if (customer.isDeleted) {
-      throw new NotAcceptableException('Customer was previously softly deleted, but the record does exist in the DB.');
-    }
+    return dbResponse.rows[0];
+  }
 
-    return customer;
-  };
   async getCustomers() {
     const dbResponse: QueryResult<Customer> = await this._clientDb.query(`
       SELECT * FROM ${customersDb}

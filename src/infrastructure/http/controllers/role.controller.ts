@@ -42,7 +42,7 @@ export class RoleController {
       const role = await this.roleService.createRole(body);
       return roleFromDomain(role);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -62,7 +62,7 @@ export class RoleController {
       const roles = await this.roleService.getRoles();
       return roles.map(roleFromDomain);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -92,7 +92,7 @@ export class RoleController {
       const role = await this.roleService.getRole(param);
       return roleFromDomain(role);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -126,7 +126,7 @@ export class RoleController {
       const role = await this.roleService.updateRole(body);
       return roleFromDomain(role);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -160,7 +160,7 @@ export class RoleController {
     try {
       await this.roleService.deleteRole(param);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 

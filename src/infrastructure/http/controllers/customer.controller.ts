@@ -42,7 +42,7 @@ export class CustomerController {
       const customer = await this.customerService.createCustomer(body);
       return customerFromDomain(customer);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -61,7 +61,7 @@ export class CustomerController {
       const customers = await this.customerService.getCustomers();
       return customers.map(customerFromDomain);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -76,10 +76,6 @@ export class CustomerController {
   @ApiResponse({
     status: 404,
     description: 'No customer was found given that id'
-  })
-  @ApiResponse({
-    status: 406,
-    description: 'Customer was previously deleted (soft deleted). You can use the update the Customer method to update the isDeleted flag.'
   })
   @ApiParam({
     type: String,
@@ -96,7 +92,7 @@ export class CustomerController {
       const customer = await this.customerService.getCustomer(param);
       return customerFromDomain(customer);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -130,7 +126,7 @@ export class CustomerController {
       const customer = await this.customerService.updateCustomer(body);
       return customerFromDomain(customer);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -166,7 +162,7 @@ export class CustomerController {
       const customer = await this.customerService.deleteCustomer(param);
       return customerFromDomain(customer);
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 }
