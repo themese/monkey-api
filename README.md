@@ -74,7 +74,7 @@ See the link provided for all advantages and disadvantages, but for me, that is 
 
 ## AWS S3
 
-We use Amazon's S3 Bucket to store Customer's photos. This property is a private URL of the image and it's not transformed by the API. The UI will need to be authenticated in AWS and have access to the private keys and bucket name, then download it in the UI. This is done in order to preserve images quality, as transforming it to base64 will make it loose of it's quality.
+We use Amazon's S3 Bucket to store Customer's photos. This property is a prublic URL of the image and it's not transformed by the API (it should be private but making them public for the sake of the interview). The UI will need to be authenticated in AWS and have access to the private keys and bucket name, then download it in the UI. This is done in order to preserve images quality, as transforming it to base64 will make it loose of it's quality.
 
 ## CRM
 
