@@ -1,4 +1,5 @@
-import { Client, Pool } from "pg"
+import { S3 } from "aws-sdk";
+import { Client } from "pg"
 
 export const initDbClient = () => {
   const client = new Client({
@@ -10,4 +11,10 @@ export const initDbClient = () => {
   });
   client.connect();
   return client;
+}
+
+export const initS3 = () => {
+  return new S3({
+    region: process.env.AWS_REGION,
+  });
 }

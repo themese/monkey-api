@@ -1,14 +1,18 @@
+import S3, { PutObjectRequest } from "aws-sdk/clients/s3";
+import { createReadStream } from "fs";
 import { Client, QueryResult } from "pg";
 import { NewCustomer, Customer, CustomerId } from "src/domain_model/customer";
 import { UserId } from "src/domain_model/user";
 import { CustomerRepository } from "src/domain_services/customer.repository";
-import { initDbClient } from "./utils";
+import { initDbClient, initS3 } from "./utils";
 
 const customersDb = 'public."Customers"';
 export class CustomerRepositoryImpl implements CustomerRepository {
   private readonly _clientDb: Client;
+  private readonly _s3: S3;
   constructor() {
     this._clientDb = initDbClient();
+    this._s3 = initS3();
   }
 
   async createCustomer(newCustomer: NewCustomer, createdBy: UserId) {
@@ -83,5 +87,13 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     `);
     return dbResponse.rows[0];
   };
-
+  async uploadCustomerPhoto(photo: Express.Multer.File, customerId: CustomerId, updatedBy: number): Promise<Customer> {
+    const customer = await this.getCustomer(customerId);
+    const uploadParams: PutObjectRequest = { Bucket: process.env.AWS_BUCKET_NAME, Key: '', Body: '' };
+    uploadParams.Body = createReadStream(photo.path);
+    uploadParams.Key = photo.filename;
+    const data = await this._s3.upload(uploadParams).promise();
+    customer.photo = data.Location;
+    return customer;
+  }
 }

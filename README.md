@@ -72,6 +72,10 @@ For example, we could remove the Data Access Layer (repository implementations) 
 
 See the link provided for all advantages and disadvantages, but for me, that is the best advantage. However, it comes with some costs, and, outside the extra time it usually takes to decide the folder structure, it's a pattern that makes it harder for beginners and new joiners to the porject to understand. Some times even experts, as architects might mess up splitting responsabilities between layers, due to how fine the line is between some of them at times.
 
+## AWS S3
+
+We use Amazon's S3 Bucket to store Customer's photos. This property is a private URL of the image and it's not transformed by the API. The UI will need to be authenticated in AWS and have access to the private keys and bucket name, then download it in the UI. This is done in order to preserve images quality, as transforming it to base64 will make it loose of it's quality.
+
 ## CRM
 
 This CRM is built with Users, Roles and Customers. Every User can CRUD Customers, but only Users with the admin Role can CRUD Users. Only roles can be fully deleted via API; both Users and Customers have a `isDeleted` boolean flag that represents a softDelete.
@@ -114,7 +118,7 @@ class Customer {
   id: number; // DB sequential id - primary key
   name: string;
   surname: string;
-  photo: string; // Stringified photo. The API will save it automatically in the DB, so send the photo already transformed as base64
+  photo: string; // S3 bucket URL of the photo
   createdBy: number; // Foreign key to Users - this is the User that created the Customer
   lastUpdatedBy: number;  // Foreign key to Users - this is the last User that modified the Customer. CreatedBy and LastUpdatedBy will have   the same value at Customer creation time.
   isDeleted: boolean; // Soft delete flag

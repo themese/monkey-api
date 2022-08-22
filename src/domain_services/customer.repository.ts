@@ -9,4 +9,5 @@ export interface CustomerRepository {
   getCustomers: () => Promise<Customer[]>;
   updateCustomer: (customer: Customer, updatedBy: UserId) => Promise<Customer>;
   deleteCustomer: (id: CustomerId, updatedBy: UserId) => Promise<Customer>;
+  uploadCustomerPhoto: (photo: Express.Multer.File, customerId: CustomerId, updatedBy: UserId) => Promise<Customer>;
 }

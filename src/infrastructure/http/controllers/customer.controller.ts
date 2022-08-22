@@ -1,10 +1,15 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
+import * as fs from 'fs';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { diskStorage } from "multer";
 import { CustomerService, CustomerServiceSymbol } from "src/app_services/customer.service";
 import { NewCustomer, CustomerId, Customer } from "src/domain_model/customer";
+import { UserId } from "src/domain_model/user";
 import { CustomerDto } from "../dtos/customer.dto";
 import { customerFromDomain } from "../dto_mappers/customer.mapper";
+import * as path from 'path';
 
 @ApiTags('Customer')
 @ApiBearerAuth()
@@ -163,6 +168,33 @@ export class CustomerController {
       return customerFromDomain(customer);
     } catch (err) {
       throw err;
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('photo', {
+    storage: diskStorage({
+      destination: 'tmp/',
+    }),
+  }))
+  @Post('/:requesterId/:customerId/uploadPhoto')
+  async uploadPhoto(
+    @Param() params: { requesterId: UserId, customerId: CustomerId },
+    @UploadedFile() photo: Express.Multer.File,
+  ) {
+    try {
+      const customer = await this.customerService.uploadCustomerPhoto(photo, params.customerId, params.requesterId);
+      return customerFromDomain(customer);
+    } catch (err) {
+      throw err;
+    }
+    finally {
+      fs.rmdir(
+        path.join(__dirname, `../../../../tmp/`),
+        () => {
+          console.log('Tmp folder was successfully removed');
+        },
+      );
     }
   }
 }

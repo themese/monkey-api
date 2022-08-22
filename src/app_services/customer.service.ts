@@ -1,5 +1,6 @@
 import { Inject } from "@nestjs/common";
 import { NewCustomer, CustomerId, Customer } from "src/domain_model/customer";
+import { UserId } from "src/domain_model/user";
 import { CustomerRepository, CustomerRepositorySymbol } from "src/domain_services/customer.repository";
 
 export const CustomerServiceSymbol = Symbol.for('CustomerService');
@@ -29,4 +30,8 @@ export class CustomerService {
   async deleteCustomer(id: CustomerId) {
     return await this.customerRepository.deleteCustomer(id, 1);
   };
+
+  async uploadCustomerPhoto(photo: Express.Multer.File, customerId: CustomerId, updatedBy: UserId) {
+    return await this.customerRepository.uploadCustomerPhoto(photo, customerId, updatedBy);
+  }
 }

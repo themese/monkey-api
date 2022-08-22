@@ -29,7 +29,7 @@ export class Customer extends NewCustomer {
   @ApiProperty()
   surname: string;
   @ApiProperty()
-  photo: string; // base64
+  photo: string;
   @ApiProperty()
   createdBy: UserId;
   @ApiProperty()
