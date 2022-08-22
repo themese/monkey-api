@@ -53,7 +53,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     const { id, name, surname, photo, createdBy, isDeleted } = customer;
     const dbUpdateResponse: QueryResult<{ id: CustomerId }> = await this._clientDb.query(`
       UPDATE ${customersDb}
-      SET id=${id}, name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=${isDeleted}
+      SET name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=${isDeleted}
       WHERE id=${id}
       RETURNING id;
     `);
@@ -75,7 +75,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     const { name, surname, photo, createdBy } = dbCustomerResponse.rows[0];
     const dbUpdateResponse: QueryResult<{ id: CustomerId }> = await this._clientDb.query(`
       UPDATE ${customersDb}
-      SET id=${id}, name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=true
+      SET name='${name}', surname='${surname}', photo='${photo}', "createdBy"=${createdBy}, "lastUpdatedBy"=${updatedBy}, "isDeleted"=true
       WHERE id=${id}
       RETURNING id;
     `);

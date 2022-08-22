@@ -50,7 +50,7 @@ export class UserRepositoryImpl implements UserRepository {
     const { id, email, roleId } = user;
     const dbUpdateResponse: QueryResult<{ id: UserId }> = await this._clientDb.query(`
       UPDATE ${usersDb}
-      SET id=${id}, "email"='${email}', "roleId"=${roleId}
+      SET "email"='${email}', "roleId"=${roleId}
       WHERE id=${id}
       RETURNING id;
   `);
@@ -74,7 +74,7 @@ export class UserRepositoryImpl implements UserRepository {
     const { email, roleId } = dbCustomerResponse.rows[0];
     const dbUpdateResponse: QueryResult<{ id: UserId }> = await this._clientDb.query(`
       UPDATE ${usersDb}
-      SET id=${id}, "email"='${email}', "roleId"=${roleId}, "isDeleted"=true
+      SET "email"='${email}', "roleId"=${roleId}, "isDeleted"=true
       WHERE id=${id}
       RETURNING id;
     `);

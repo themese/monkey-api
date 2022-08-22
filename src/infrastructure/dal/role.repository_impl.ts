@@ -50,7 +50,7 @@ export class RoleRepositoryImpl implements RoleRepository {
     const { id, name } = role;
     const dbUpdateResponse: QueryResult<{ id: RoleId }> = await this._clientDb.query(`
       UPDATE ${rolesDb}
-      SET id=${id}, name='${name}'
+      SET name='${name}'
       WHERE id=${id}
       RETURNING id;
   `);
