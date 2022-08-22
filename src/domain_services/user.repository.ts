@@ -1,4 +1,4 @@
-import { NewUser, User, UserId } from "src/domain_model/user";
+import { NewUser, User, UserId } from "@src/domain-model/user";
 
 export const UserRepositorySymbol = Symbol.for('UserRepository');
 

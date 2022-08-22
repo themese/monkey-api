@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { HealthService, HealthServiceSymbol } from "src/app_services/health.service";
+import { HealthService, HealthServiceSymbol } from "@src/app-services/health.service";
 
 @ApiTags('Health')
 @Controller('/api/health')

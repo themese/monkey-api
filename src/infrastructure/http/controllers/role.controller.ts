@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { RoleService, RoleServiceSymbol } from "src/app_services/role.service";
-import { NewRole, Role, RoleId } from "src/domain_model/role";
+import { RoleService, RoleServiceSymbol } from "@src/app-services/role.service";
+import { NewRole, Role, RoleId } from "@src/domain-model/role";
 import { RoleDto } from "../dtos/role.dto";
 import { roleFromDomain } from "../dto_mappers/role.mapper";
 

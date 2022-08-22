@@ -1,6 +1,6 @@
 import { Client, QueryResult } from "pg";
-import { NewUser, User, UserId } from "src/domain_model/user";
-import { UserRepository } from "src/domain_services/user.repository";
+import { NewUser, User, UserId } from "@src/domain-model/user";
+import { UserRepository } from "@src/domain-services/user.repository";
 import { initDbClient } from "./utils";
 
 const usersDb = 'public."Users"';

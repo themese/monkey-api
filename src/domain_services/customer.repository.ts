@@ -1,5 +1,5 @@
-import { Customer, CustomerId, NewCustomer } from "src/domain_model/customer";
-import { UserId } from "src/domain_model/user";
+import { Customer, CustomerId, NewCustomer } from "@src/domain-model/customer";
+import { UserId } from "@src/domain-model/user";
 
 export const CustomerRepositorySymbol = Symbol.for('CustomerRepository');
 

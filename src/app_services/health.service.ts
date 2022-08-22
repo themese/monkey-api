@@ -1,5 +1,5 @@
 import { Inject } from "@nestjs/common";
-import { HealthRepository, HealthRepositorySymbol } from "src/domain_services/health.repository";
+import { HealthRepository, HealthRepositorySymbol } from "@src/domain-services/health.repository";
 
 export const HealthServiceSymbol = Symbol.for('HealthService');
 

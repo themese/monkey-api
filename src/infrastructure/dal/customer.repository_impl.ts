@@ -1,9 +1,9 @@
 import S3, { PutObjectRequest } from "aws-sdk/clients/s3";
 import { createReadStream } from "fs";
 import { Client, QueryResult } from "pg";
-import { NewCustomer, Customer, CustomerId } from "src/domain_model/customer";
-import { UserId } from "src/domain_model/user";
-import { CustomerRepository } from "src/domain_services/customer.repository";
+import { NewCustomer, Customer, CustomerId } from "@src/domain-model/customer";
+import { UserId } from "@src/domain-model/user";
+import { CustomerRepository } from "@src/domain-services/customer.repository";
 import { initDbClient, initS3 } from "./utils";
 
 const customersDb = 'public."Customers"';

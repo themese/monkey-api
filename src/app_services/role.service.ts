@@ -1,6 +1,6 @@
 import { Inject } from "@nestjs/common";
-import { NewRole, Role, RoleId } from "src/domain_model/role";
-import { RoleRepository, RoleRepositorySymbol } from "src/domain_services/role.repository";
+import { NewRole, Role, RoleId } from "@src/domain-model/role";
+import { RoleRepository, RoleRepositorySymbol } from "@src/domain-services/role.repository";
 
 export const RoleServiceSymbol = Symbol.for('RoleService');
 

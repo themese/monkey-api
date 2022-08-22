@@ -1,6 +1,6 @@
 import { Client, QueryResult } from "pg";
-import { NewRole, Role, RoleId } from "src/domain_model/role";
-import { RoleRepository } from "src/domain_services/role.repository";
+import { NewRole, Role, RoleId } from "@src/domain-model/role";
+import { RoleRepository } from "@src/domain-services/role.repository";
 import { initDbClient } from "./utils";
 
 const rolesDb = 'public."Roles"';

@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
-import { NewCustomer, CustomerId, Customer } from "src/domain_model/customer";
-import { UserId } from "src/domain_model/user";
-import { CustomerRepository, CustomerRepositorySymbol } from "src/domain_services/customer.repository";
+import { NewCustomer, CustomerId, Customer } from "@src/domain-model/customer";
+import { UserId } from "@src/domain-model/user";
+import { CustomerRepository, CustomerRepositorySymbol } from "@src/domain-services/customer.repository";
 
 export const CustomerServiceSymbol = Symbol.for('CustomerService');
 

@@ -1,4 +1,4 @@
-import { Customer } from "src/domain_model/customer";
+import { Customer } from "@src/domain-model/customer";
 import { CustomerDto } from "../dtos/customer.dto";
 
 export function customerFromDomain(customer: Customer): CustomerDto {

@@ -1,4 +1,4 @@
-import { HealthRepository } from "src/domain_services/health.repository";
+import { HealthRepository } from "@src/domain-services/health.repository";
 
 export class HealthRepositoryImpl implements HealthRepository {
   checkApi() {

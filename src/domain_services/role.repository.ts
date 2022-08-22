@@ -1,4 +1,4 @@
-import { NewRole, Role, RoleId } from "src/domain_model/role";
+import { NewRole, Role, RoleId } from "@src/domain-model/role";
 
 export const RoleRepositorySymbol = Symbol.for('RoleRepository');
 

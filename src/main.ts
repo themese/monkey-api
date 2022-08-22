@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './infrastructure/ioc/app.module';
+import { AppModule } from './ioc/app.module';
 
 const port = 8000;
 

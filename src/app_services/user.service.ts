@@ -1,7 +1,7 @@
 import { Inject, NotAcceptableException } from "@nestjs/common";
-import { NewUser, User, UserId } from "src/domain_model/user";
-import { RoleRepository, RoleRepositorySymbol } from "src/domain_services/role.repository";
-import { UserRepository, UserRepositorySymbol } from "src/domain_services/user.repository";
+import { NewUser, User, UserId } from "@src/domain-model/user";
+import { RoleRepository, RoleRepositorySymbol } from "@src/domain-services/role.repository";
+import { UserRepository, UserRepositorySymbol } from "@src/domain-services/user.repository";
 
 export const UserServiceSymbol = Symbol.for('UserService');
 

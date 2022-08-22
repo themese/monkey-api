@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { CustomerId } from "src/domain_model/customer";
-import { UserId } from "src/domain_model/user";
+import { CustomerId } from "@src/domain-model/customer";
+import { UserId } from "@src/domain-model/user";
 
 export class CustomerDto {
   @ApiProperty()

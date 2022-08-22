@@ -1,4 +1,4 @@
-import { User } from "src/domain_model/user";
+import { User } from "@src/domain-model/user";
 import { UserDto } from "../dtos/user.dto";
 
 export function userFromDomain(user: User): UserDto {

@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { UserService, UserServiceSymbol } from "src/app_services/user.service";
-import { NewUser, User, UserId } from "src/domain_model/user";
+import { UserService, UserServiceSymbol } from "@src/app-services/user.service";
+import { NewUser, User, UserId } from "@src/domain-model/user";
 import { UserDto } from "../dtos/user.dto";
 import { userFromDomain } from "../dto_mappers/user.mapper";
 
