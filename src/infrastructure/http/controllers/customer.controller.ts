@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { ExpressAdapter, FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { diskStorage } from "multer";
 import { CustomerService, CustomerServiceSymbol } from "@src/app-services/customer.service";
@@ -33,18 +33,24 @@ export class CustomerController {
     status: 400,
     description: 'Error creating the customer'
   })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @ApiBody({
     required: true,
     description: 'Customer to be added',
     type: NewCustomer,
   })
   @UseGuards(AuthGuard('jwt'))
-  @Post('/')
+  @Post('/:requesterId')
   async createCustomer(
+    @Param('requesterId') param: UserId,
     @Body('newCustomer') body: NewCustomer,
   ): Promise<CustomerDto> {
     try {
-      const customer = await this.customerService.createCustomer(body);
+      const customer = await this.customerService.createCustomer(body, param);
       return customerFromDomain(customer);
     } catch (err) {
       throw err;
@@ -117,18 +123,32 @@ export class CustomerController {
     status: 400,
     description: 'Error updating the customer'
   })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden. You can only change a customer\'s photo via upload photo method. Please use it or send the original photo URL in the Customer photo property'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Something happend and we coudln\'t upload the photo'
+  })
+  @ApiParam({
+    name: 'requesterId',
+    description: 'Requester user id',
+    type: String,
+  })
   @ApiBody({
     required: true,
     description: 'Customer to be added',
     type: CustomerDto,
   })
   @UseGuards(AuthGuard('jwt'))
-  @Put('/')
+  @Put('/:requesterId')
   async updateCustomer(
+    @Param('requesterId') param: UserId,
     @Body('customer') body: Customer,
   ): Promise<CustomerDto> {
     try {
-      const customer = await this.customerService.updateCustomer(body);
+      const customer = await this.customerService.updateCustomer(body, param);
       return customerFromDomain(customer);
     } catch (err) {
       throw err;
@@ -159,18 +179,38 @@ export class CustomerController {
     required: true,
   })
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/:id')
+  @Delete('/:requesterId/:customerId')
   async deleteCustomer(
-    @Param('id') param: CustomerId,
+    @Param() params: { customerId: CustomerId, requesterId: UserId },
   ): Promise<CustomerDto> {
     try {
-      const customer = await this.customerService.deleteCustomer(param);
+      const customer = await this.customerService.deleteCustomer(params.customerId, params.requesterId);
       return customerFromDomain(customer);
     } catch (err) {
       throw err;
     }
   }
 
+  @ApiResponse({
+    status: 201,
+    description: "Uploads image to uor Cloud image repository and returns Customer",
+    type: CustomerDto
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized'
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Customer was not found'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Something happend and we coudln\'t upload the photo'
+  })
+  @ApiBody({
+    description: 'Photo to be uploaded via multipart form-data'
+  })
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('photo', {
     storage: diskStorage({

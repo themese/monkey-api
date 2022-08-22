@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { ForbiddenException, Inject } from "@nestjs/common";
 import { NewCustomer, CustomerId, Customer } from "@src/domain-model/customer";
 import { UserId } from "@src/domain-model/user";
 import { CustomerRepository, CustomerRepositorySymbol } from "@src/domain-services/customer.repository";
@@ -11,8 +11,8 @@ export class CustomerService {
     private readonly customerRepository: CustomerRepository,
   ) { }
 
-  async createCustomer(newCustomer: NewCustomer) {
-    return await this.customerRepository.createCustomer(newCustomer, 1);
+  async createCustomer(newCustomer: NewCustomer, createdBy: UserId) {
+    return await this.customerRepository.createCustomer(newCustomer, createdBy);
   };
 
   async getCustomer(id: CustomerId) {
@@ -23,12 +23,15 @@ export class CustomerService {
     return await this.customerRepository.getCustomers();
   };
 
-  async updateCustomer(customer: Customer) {
-    return await this.customerRepository.updateCustomer(customer, 1);
+  async updateCustomer(customer: Customer, updatedBy: UserId) {
+    if (!customer.photo.includes('amazonaws')) {
+      throw new ForbiddenException("You can't change the customer photo using the update method. Please use the uploadPhoto method.");
+    }
+    return await this.customerRepository.updateCustomer(customer, updatedBy);
   };
 
-  async deleteCustomer(id: CustomerId) {
-    return await this.customerRepository.deleteCustomer(id, 1);
+  async deleteCustomer(id: CustomerId, updatedBy: UserId) {
+    return await this.customerRepository.deleteCustomer(id, updatedBy);
   };
 
   async uploadCustomerPhoto(photo: Express.Multer.File, customerId: CustomerId, updatedBy: UserId) {
