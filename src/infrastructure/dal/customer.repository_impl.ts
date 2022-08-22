@@ -91,7 +91,8 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     const customer = await this.getCustomer(customerId);
     const uploadParams: PutObjectRequest = { Bucket: process.env.AWS_BUCKET_NAME, Key: '', Body: '' };
     uploadParams.Body = createReadStream(photo.path);
-    uploadParams.Key = photo.filename;
+    uploadParams.Key = `${photo.filename}.${photo.mimetype.split('/')[1]}`;
+    uploadParams.ContentType = photo.mimetype;
     const data = await this._s3.upload(uploadParams).promise();
     customer.photo = data.Location;
     return customer;
