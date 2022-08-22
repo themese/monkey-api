@@ -30,6 +30,9 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
+# build
+$ npm run build
+
 # start database
 $ npm run db:start
 
@@ -43,18 +46,9 @@ $ npm run db:seed
 $ npm run lint
 ```
 
-## Test
+## API Documentation
 
-ToDo - no tests buillt at the time this is written but planned to be done.
-Tests are done using jest. Only unit tests are implemented for the sake of time.
-
-```bash
-# unit tests
-$ npm run test
-
-# test coverage
-$ npm run test:cov
-```
+We use [Swagger for NestJS](https://docs.nestjs.com/openapi/introduction). Go to this URL: `localhost:8000/api` to retrieve the API usage documentation.
 
 ## Framework
 
@@ -71,6 +65,22 @@ Thanks to how easy is to implement OA in NestJS, we can swap a lot of implemente
 For example, we could remove the Data Access Layer (repository implementations) for a tool like Prisma. We could even abstract it more with GraphQL and Prisma and forget about models and implementations.
 
 See the link provided for all advantages and disadvantages, but for me, that is the best advantage. However, it comes with some costs, and, outside the extra time it usually takes to decide the folder structure, it's a pattern that makes it harder for beginners and new joiners to the porject to understand. Some times even experts, as architects might mess up splitting responsabilities between layers, due to how fine the line is between some of them at times.
+
+## Test
+
+You can find unit tests in `./src/test`, using Jest. Due to time constraints, we are not testing other critical side of the API, such as the `repository_impl.ts` classes. `services` classes call `impl` classes which call a Database, and that should be tested - for example we could mock a Db.
+
+We are also testing the services in a very simple manner, we aren't testing for negatives.
+
+You can run Jest using the following commands:
+
+```bash
+# unit tests
+$ npm run test
+
+# test coverage
+$ npm run test:cov
+```
 
 ## AWS S3
 
@@ -159,10 +169,6 @@ Because this is only the API and we have no UI to login and in order to save tim
 ![](./public/imgs/auth0.png)
 
 This should be already set up and no config is needed from devs. You can retrieve a token calling the `GET: http://localhost:8000/api/auth` endpoint.
-
-## API Documentation
-
-We use [Swagger for NestJS](https://docs.nestjs.com/openapi/introduction). Go to this URL: `localhost:8000/api` to retrieve the API usage documentation.
 
 You can also find the postman api collection at [this public link](https://www.getpostman.com/collections/d596b43d0825391b8901). You can copy it and Import it in [Postman using Link](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman).
 
