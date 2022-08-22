@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/infrastructure/tests",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "../../domain_model"
+    },
+    {
+      "path": "../../domain_services"
+    },
+    {
+      "path": "../../app_services"
+    }
+  ]
+}
